@@ -22,3 +22,11 @@ ifconfig r0-eth2 0
 # Add IP addresses to bridge subinterfaces
 ip addr add 192.168.1.1/24 dev br0.10
 ip addr add 192.168.2.1/24 dev br0.20
+
+# Добавляем в iptables запись о NAT
+# eth2 - внешний интерфейс, выходящие из него пакеты
+# Будут иметь его IP адрес
+iptables -t nat -A POSTROUTING -o r0-eth3 -j MASQUERADE
+
+# Подключаем сервер распознования имен
+echo nameserver 8.8.8.8 >> resolv.conf

@@ -62,10 +62,9 @@ def run():
     topo = NetworkTopo()
     
     net = Mininet( topo=topo )
-
     s3 = net.addSwitch('s3')
     Intf('eth1', node=s3)
-    net.addLink( s3, topo.hosts()[4], intfName2='r0-eth3' )
+    net.addLink( s3, net[ 'r0' ], intfName2='r0-eth3' )
     net.start()
 
     # Configure vlans on router and switches

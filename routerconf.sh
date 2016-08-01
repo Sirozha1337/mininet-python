@@ -29,4 +29,4 @@ ip addr add 192.168.2.1/24 dev br0.20
 iptables -t nat -A POSTROUTING -o r0-eth3 -j MASQUERADE
 
 # Подключаем сервер распознования имен
-echo nameserver 8.8.8.8 >> resolv.conf
+echo nameserver 8.8.8.8 >> /etc/resolv.conf

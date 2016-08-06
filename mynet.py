@@ -31,16 +31,11 @@ class NetworkTopo( Topo ):
 
         s1, s2 = [ self.addSwitch( s ) 
                    for s in ( 's1', 's2' ) ]
-        
-        # Switch that shoud have a port connected to the internet
-        s3 = self.addSwitch('s3')
-        Intf( 'eth1', node=s3 ) # This thing doesn't work
 
         self.addLink( s1, router, intfName2='r0-eth1',
-                      params2={ 'ip' : defaultIP } )  # for clarity
+                      params2={ 'ip' : defaultIP } ) 
         self.addLink( s2, router, intfName2='r0-eth2',
                       params2={ 'ip' : '192.168.2.1/24' } )
-        self.addLink( s3, router, intfName2='r0-eth3' )
 
         h1 = self.addHost( 'h1', ip='192.168.1.100/24',
                            defaultRoute='via 192.168.1.1' )
@@ -60,14 +55,18 @@ class NetworkTopo( Topo ):
 def run():
 
     topo = NetworkTopo()
-    net = Mininet( topo=topo ) 
     
+    net = Mininet( topo=topo )
+    s3 = net.addSwitch('s3')
+    Intf('eth1', node=s3)
+    net.addLink( s3, net[ 'r0' ], intfName2='r0-eth3' )
     net.start()
 
     # Configure vlans on router and switches
     net[ 'r0' ].cmd( './routerconf.sh' )
+    net[ 'r0' ].cmd( 'dhclient r0-eth3' )
     net[ 's1' ].cmd( './switchconf.sh' )
-
+    
     CLI( net )
     net.stop()
 

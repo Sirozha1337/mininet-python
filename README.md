@@ -14,3 +14,7 @@ stp3.py -- topology with a loop and stp enabled
 savedtopo.mn -- example of miniedit save file format
 
 savedtopo.py -- topology made in miniedit and saved as python script
+
+lab2.py -- a network with two vlans connected by router
+
+lab2.sh -- configures vlan on switch, should be placed in home directory before launching lab2.py
